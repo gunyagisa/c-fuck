@@ -13,11 +13,11 @@ void * malloc_e(size_t size)
 {
     void *v;
     if ((v = malloc(size)) == NULL) {
-        perror("malloc_e");
+        perror("[*][malloc_e]");
         exit(1);
     }
 
-    fprintf(stderr, "[malloc_e] %p\n", v);
+    fprintf(stderr, "[-][malloc_e] %p\n", v);
 
     return v;
 }
@@ -25,13 +25,13 @@ void * malloc_e(size_t size)
 void * realloc_e (void *old, size_t size)
 {
     void *v;
-    fprintf(stderr, "[realloc_e] size: %ld\n", size);
+    fprintf(stderr, "[-][realloc_e] size: %ld\n", size);
     if ((v = realloc(old, size)) == NULL) {
-        perror("realloc_e");
+        perror("[*][realloc_e]");
         exit(1);
     }
 
-    fprintf(stderr, "[realloc_e] %p\n", v);
+    fprintf(stderr, "[-][realloc_e] %p\n", v);
 
     return v;
 }
@@ -74,6 +74,7 @@ void printf_vec(vector *vec)
     size_t res, used;
     res = vec->total_size;
     used = vec->current_size;
+    printf("\n-----<vector output>-----\n");
     printf("reserved: %ld, used: %ld, free: %ld\n\n", res, used, res - used);
     printf("%s\n", vec->head);
 }
