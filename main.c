@@ -25,6 +25,7 @@ void * malloc_e(size_t size)
 void * realloc_e (void *old, size_t size)
 {
     void *v;
+    fprintf(stderr, "[realloc_e] size: %ld\n", size);
     if ((v = realloc(old, size)) == NULL) {
         perror("realloc_e");
         exit(1);
@@ -37,7 +38,7 @@ void * realloc_e (void *old, size_t size)
 
 vector* vec_init()
 {
-    size_t size = 30;
+    size_t size = 125;
     vector *vec = (vector *) malloc_e(sizeof(vector));
     vec->head = (char *) malloc_e(sizeof(char) * size);
     vec->total_size = size;
@@ -54,12 +55,13 @@ void destroy_vec(vector *vec)
 
 void push_back(vector *vec, char *data, size_t size)
 {
+    size_t add_size = 125;
     if (vec->total_size <= vec->current_size + size) {
         char *new_head;
-        new_head = realloc_e(vec, vec->total_size + size + 30);
+        new_head = realloc_e(vec->head, vec->total_size + size + add_size);
 
         vec->head = new_head;
-        vec->total_size += size + 30;
+        vec->total_size += size + add_size;
     }
 
     memcpy(vec->head + vec->current_size, data, size);
@@ -69,6 +71,10 @@ void push_back(vector *vec, char *data, size_t size)
 
 void printf_vec(vector *vec)
 {
+    size_t res, used;
+    res = vec->total_size;
+    used = vec->current_size;
+    printf("reserved: %ld, used: %ld, free: %ld\n\n", res, used, res - used);
     printf("%s\n", vec->head);
 }
 
