@@ -8,7 +8,7 @@ build: main.o
 	./fucc
 
 clean:
-	rm -f *.o
+	rm -f *.o a.out
 
 PHONY: build
 

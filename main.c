@@ -72,13 +72,44 @@ void printf_vec(vector *vec)
     printf("%s\n", vec->head);
 }
 
+
+
+void file_handler(const char * const file_name, vector *vec)
+{
+    FILE *fp;
+    if ((fp = fopen(file_name, "r")) == NULL) {
+        perror("file_handler");
+        exit(1);
+    }
+
+    size_t size = 125;
+    char buf[size];
+    size_t read_size;
+
+    for (;;) {
+        memset(buf, '0', size);
+        read_size = fread(buf, 1, size, fp);
+
+        push_back(vec, buf, read_size);
+        
+        if (read_size != size) break;
+    }
+
+    fclose(fp);
+}
+
+
 int main(int argc, char *argv[])
 {
+    if (argc < 2) {
+        printf("few argument\n");
+        exit(1);
+    }
+
     vector *vec = vec_init();
 
-    char *buf = "hello world";
+    file_handler(argv[1], vec);
 
-    push_back(vec, buf, strlen(buf));
     printf_vec(vec);
 
     destroy_vec(vec);
